@@ -1,1 +1,10 @@
 # Air-Quality-Time-Series-
+This is a Multivariate Time Series Analysis on levels of pollutants in the air in a laboratory station in Madrid, from 2001 to 2018. The datasets were gotten from Kaggle here: https://www.kaggle.com/datasets/decide-soluciones/air-quality-madrid?select=stations.csv
+
+All data from every station was originally concatenated for ease of grouping, as I was primarily interested in the Casa de Campo station in order to predict the levels of Carbon Monoxide contained in the air. To address the issue of missing values, skewness was employed to figure out what type of imputation each column would require. For some gases with a certain percentage of null values, the MICE Imputer package was adopted with a Bayesian Ridge estimator to forward-fill values.
+
+To get a holistic view of the trend in Carbon Monoxide levels, a yearly sample was used for visualization. This plot showed a significant drop in the levels of Carbon Monoxide (measured in μgm-3) over the years, with only a few spikes in the wrong direction. Three types of resampling were used in order to determine the timeframe with the best accuracy - Weekly, Monthly and Quarterly Resampling. This was done using the average values of these pollutants over a week, month or quarter respectively.
+
+Dropping gases that had little to no correlation impact on our data from the dataframe was the next step in the modeling, in order to maximise accuracy. Lag variables were also introduced, 54 lags on weekly data, 12 on monthly and 4 for quarterly before splitting the dataframe into training and testing sets. Random Forest Regressor using 100 estimators was selected as the regressor and Recursive Feature Elimination was employed on the regressor with the goal of selecting only the most impactful variables. 
+
+Using these tools, an accuracy of 90.26% was determined on the weekly resampled testing set, which was determined to have a bias of -0.000008 and an R-squared score of 0.81. The monthly and quarterly resamples were less successful, coming in at 86.66% and 83.37% accuracy respectively.
